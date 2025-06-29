@@ -114,7 +114,7 @@ def segment_text(text):
         "索尼",
         "林梦洋",
         "设计",
-    ]
+    ]  # 停用词，我根据生成后的结果手动添加进来的
     words = jieba.cut(text)
     return " ".join([word for word in words if word not in stopwords and len(word) > 1])
 
@@ -137,7 +137,6 @@ def generate_wordcloud(text):
     plt.axis("off")
     plt.savefig(OUTPUT_IMAGE)
     plt.show()
-    print(f"词云已保存至: {OUTPUT_IMAGE}")
 
 
 lyrics = load_lyrics()

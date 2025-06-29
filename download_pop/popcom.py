@@ -1,10 +1,9 @@
-import csv
 import requests
-import os
-
-# 下载图片
-# 因为获取歌词网易云的反爬虫比较严格，于是将下载图片的模块与其他部分分开了，通过爬下来的图片url进行下载
-# 如果是爬取少量信息，就不用分开
+import json
+import time
+import csv
+import re
+from bs4 import BeautifulSoup
 
 
 headers = {
@@ -18,21 +17,44 @@ headers = {
 }
 
 
-def download_songimg():
-    with open(r"C:\Users\14395\Desktop\git\MusicInfo\song.csv", mode="r") as csv_file:
-        csv_reader = csv.DictReader(csv_file)
-        for row_num, row in enumerate(csv_reader):
-            if row_num % 2 == 0:
-                continue
-            image_url = row["song_pic"].strip()
-            image_id = row["song_id"].strip()
-            save_path = os.path.join(
-                r"C:\Users\14395\Desktop\git\MusicInfo\songpics", image_id + ".jpg"
-            )
-            response = requests.get(image_url, headers=headers)
-            with open(save_path, "wb") as f:
-                for chunk in response.iter_content(1024):
-                    f.write(chunk)
+def get_pop(song_id):
+
+    pop_url = "https://music.163.com/api/v3/song/detail?"
+    params = {"c": json.dumps([{"id": int(song_id)}])}
+    response = requests.get(pop_url, params=params, headers=headers)
+    data = response.json()
+
+    return data["songs"][0].get("pop")
 
 
-download_songimg()
+def get_comnum(song_id):
+
+    comment_url = (
+        f"https://music.163.com/api/v1/resource/comments/R_SO_4_{song_id}?limit=1"
+    )
+    comresponse = requests.get(comment_url, headers=headers)
+    com_data = comresponse.json()
+    count = com_data.get("total")
+    return count
+
+
+songcsvfile = open(r"C:\Users\14395\Desktop\git\MusicInfo\song.csv", mode="r")
+popcomcsvfile = open(
+    r"C:\Users\14395\Desktop\git\MusicInfo\download_pop\pop.csv", "a", errors="ignore"
+)
+reader = csv.DictReader(songcsvfile)
+writer = csv.writer(popcomcsvfile)
+writer.writerow(("artist_name", "song_id", "pop", "comment"))
+
+tmp = 0
+for row_num, row in enumerate(reader):
+    if row_num % 2 == 0:
+        continue
+    song_id = row["song_id"].strip()
+    artist_name = row["artist_name"].strip()
+    writer.writerow((artist_name, song_id, get_pop(song_id), get_comnum(song_id)))
+    tmp += 1
+    print(tmp)
+
+
+# tmp仅仅起到简易进度条作用，懒得import了
