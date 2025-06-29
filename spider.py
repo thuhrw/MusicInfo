@@ -81,7 +81,7 @@ def get_info():
 
             response = requests.get(url, headers=headers)
             response.encoding = "utf-8"
-            soup = BeautifulSoup(response.text, "lxml")
+            soup = BeautifulSoup(response.text, "lxml")  # soup为热门华语男歌手页面
 
             list = soup.find_all("a", attrs={"class": "nm nm-icn f-thide s-fc0"})
 
@@ -92,7 +92,7 @@ def get_info():
                 url1 = "https://music.163.com/artist/desc?id=" + artist_id
                 response1 = requests.get(url1, headers=headers)
                 response1.encoding = "utf-8"
-                soup1 = BeautifulSoup(response1.text, "lxml")
+                soup1 = BeautifulSoup(response1.text, "lxml")  # soup1为某一歌手介绍主页
                 artist_desc = soup1.find("meta", attrs={"name": "description"})[
                     "content"
                 ]
@@ -100,7 +100,7 @@ def get_info():
                 url2 = "https://music.163.com/artist/?id=" + artist_id
                 response2 = requests.get(url2, headers=headers)
                 response2.encoding = "utf-8"
-                soup2 = BeautifulSoup(response2.text, "lxml")
+                soup2 = BeautifulSoup(response2.text, "lxml")  # soup2为某一歌手主页
                 artist_pic = soup2.find("meta", attrs={"property": "og:image"})[
                     "content"
                 ]
@@ -128,7 +128,7 @@ def get_info():
 
                     song_url = "https://music.163.com/song?id=" + song_id
                     response3 = requests.get(song_url, headers=headers)
-                    soup3 = BeautifulSoup(response3.text, "lxml")
+                    soup3 = BeautifulSoup(response3.text, "lxml")  # soup3为某一歌曲页面
 
                     song_pic = soup3.find("meta", attrs={"property": "og:image"})[
                         "content"
