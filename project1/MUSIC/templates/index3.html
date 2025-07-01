@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Songs</title>
+</head>
+<body>
+    <h1>Music Library</h1>
+    
+    {% for song in songs %}
+        <!-- 为每首歌曲创建一个段落 -->
+        <div class="song-item">  <!-- 推荐使用div包裹 -->
+            <p>
+                <strong>{{ song.name }}</strong> by {{ song.artist }}
+                <br>
+                <a href="{{ song.url }}">Listen Now</a>  <!-- 显示歌曲链接 -->
+            </p>
+            <!-- 可选：显示部分歌词 -->
+            <blockquote>{{ song.lyric|truncatewords:30 }}</blockquote>
+            <hr>
+        </div>
+    {% empty %}
+        <p>No songs available in the database.</p>
+    {% endfor %}
+</body>
+</html>

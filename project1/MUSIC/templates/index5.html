@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歌手列表 - 音乐平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .btn-artist {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-artist:hover {
+            background: rgba(255, 126, 95, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-artist i {
+            margin-right: 8px;
+        }
+
+        .singer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .singer-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .singer-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-art {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .album-art::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to top, rgba(26, 42, 108, 0.7), transparent);
+        }
+        
+        .singer-info {
+            padding: 20px;
+        }
+        
+        .singer-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ff7e5f;
+        }
+        
+        .singer-artist {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .singer-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            opacity: 0.7;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination a, .pagination span, .pagination button, .pagination input {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pagination a:hover:not(.disabled) {
+            background: rgba(255, 126, 95, 0.8);
+        }
+        
+        .pagination .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination .page-btn {
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pagination .page-info {
+            background: transparent;
+            padding: 0 15px;
+        }
+        
+        .pagination .page-input {
+            width: 70px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .pagination .go-btn {
+            background: rgba(255, 126, 95, 0.7);
+        }
+        
+        .pagination .go-btn:hover {
+            background: rgba(255, 126, 95, 0.9);
+        }
+        
+        .pagination .first-last {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>歌手列表</h1>
+            
+            <div class="header-buttons">
+                <a href="/index/MUSIC?page=1" class="btn-artist">
+                    <i class="fas fa-users"></i> Song Library
+                </a>
+            </div>
+
+        </header>
+
+        
+        
+        <section class="singer-grid">
+            {% for singer in singers %}
+            <div class="singer-card" onclick="window.location.href='/index/MUSIC/artist/{{ singer.id }}'">
+                <!-- 使用不同的渐变背景 -->
+                <div class="album-art" style="background:url({{ MEDIA_URL }}{{ singer.num }}.jpg)center/cover"></div>
+                <div class="singer-info">
+                    <div class="singer-title">{{ singer.name }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+        
+        <div class="pagination">
+            {% if singers.has_previous %}
+            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
+            <a href="?page={{ singers.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
+            {% else %}
+            <span class="page-link first-last disabled">&laquo; 首页</span>
+            <span class="page-link disabled">上一页</span>
+            {% endif %}
+
+            <span class="page-info">第 {{ singers.number }} 页 / 共 {{ singers.paginator.num_pages }} 页</span>
+
+            <div class="page-jump">
+                <form method="get" action="{{base_url}}">
+                    {% for key, value in request.GET.items %}
+                    {% if key != 'page' %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                    {% endif %}
+                    {% endfor %}
+                    <input type="number" class="page-input" name="page" min="1" max="{{ singers.paginator.num_pages }}" value="{{ singers.number }}" placeholder="页码">
+                    <button type="submit" class="go-btn">跳转</button>
+                </form>
+            </div>
+
+            {% if singers.has_next %}
+            <a href="?page={{ singers.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
+            <a href="?page={{ singers.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
+            {% else %}
+            <span class="page-link disabled">下一页</span>
+            <span class="page-link first-last disabled">末页 &raquo;</span>
+            {% endif %}
+        </div>
+    </div>
+        
+        
+    </div>
+</body>
+</html>

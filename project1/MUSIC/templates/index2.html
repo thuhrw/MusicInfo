@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐库 - 歌曲列表</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .search-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .search-box {
+            flex-grow: 1;
+            position: relative;
+            max-width: 500px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 126, 95, 0.5);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 1.2rem;
+        }
+        
+        .filters select {
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .song-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .song-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-art {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .album-art::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to top, rgba(26, 42, 108, 0.7), transparent);
+        }
+        
+        .song-info {
+            padding: 20px;
+        }
+        
+        .song-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ff7e5f;
+        }
+        
+        .song-artist {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .song-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            opacity: 0.7;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination button, .pagination input {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: rgba(255, 126, 95, 0.8);
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination .page-btn {
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pagination .active {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            font-weight: bold;
+        }
+        
+        .pagination .page-input {
+            width: 70px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .pagination .go-btn {
+            background: rgba(255, 126, 95, 0.7);
+        }
+        
+        .pagination .go-btn:hover {
+            background: rgba(255, 126, 95, 0.9);
+        }
+        
+        .pagination .first-last {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .search-section {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .filters {
+                display: flex;
+                width: 100%;
+                gap: 10px;
+            }
+            
+            .filters select {
+                flex-grow: 1;
+            }
+            
+            .pagination {
+                gap: 5px;
+            }
+            
+            .pagination button, .pagination input {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-music"></i> 音乐库</h1>
+            <p>MusicFan</p>
+        </header>
+
+        <section class="song-grid" id="song-list">
+            <!-- 歌曲卡片将通过JavaScript动态生成 -->
+        </section>
+        
+        <div class="pagination" id="pagination-controls">
+            <!-- 分页控件将通过JavaScript动态生成 -->
+        </div>
+    </div>
+    <script>
+        // 模拟歌曲数据
+        const songs = [
+            { id: 1, title: "夜空中最亮的星", artist: "逃跑计划", album: "世界", year: 2012, genre: "rock", duration: "4:32", cover: "linear-gradient(45deg, #1a2a6c, #b21f1f)" },
+            { id: 2, title: "晴天", artist: "周杰伦", album: "叶惠美", year: 2003, genre: "pop", duration: "4:29", cover: "linear-gradient(45deg, #3494E6, #EC6EAD)" },
+            { id: 3, title: "Hotel California", artist: "Eagles", album: "Hotel California", year: 1977, genre: "rock", duration: "6:30", cover: "linear-gradient(45deg, #ff7e5f, #feb47b)" },
+            { id: 4, title: "Bohemian Rhapsody", artist: "Queen", album: "A Night at the Opera", year: 1975, genre: "rock", duration: "5:55", cover: "linear-gradient(45deg, #834d9b, #d04ed6)" },
+            { id: 5, title: "Shape of You", artist: "Ed Sheeran", album: "÷", year: 2017, genre: "pop", duration: "3:53", cover: "linear-gradient(45deg, #56ab2f, #a8e063)" },
+            { id: 6, title: "Blinding Lights", artist: "The Weeknd", album: "After Hours", year: 2020, genre: "pop", duration: "3:20", cover: "linear-gradient(45deg, #ff416c, #ff4b2b)" },
+            { id: 7, title: "Take Five", artist: "Dave Brubeck", album: "Time Out", year: 1959, genre: "jazz", duration: "5:24", cover: "linear-gradient(45deg, #1D4350, #A43931)" },
+            { id: 8, title: "Fly Me to the Moon", artist: "Frank Sinatra", album: "It Might as Well Be Swing", year: 1964, genre: "jazz", duration: "2:30", cover: "linear-gradient(45deg, #3a7bd5, #00d2ff)" },
+            { id: 9, title: "稻香", artist: "周杰伦", album: "魔杰座", year: 2008, genre: "pop", duration: "3:43", cover: "linear-gradient(45deg, #56ab2f, #a8e063)" },
+            { id: 10, title: "Sweet Child O'Mine", artist: "Guns N' Roses", album: "Appetite for Destruction", year: 1987, genre: "rock", duration: "5:56", cover: "linear-gradient(45deg, #ff7e5f, #feb47b)" },
+            { id: 11, title: "Bad Guy", artist: "Billie Eilish", album: "When We All Fall Asleep", year: 2019, genre: "pop", duration: "3:14", cover: "linear-gradient(45deg, #141E30, #243B55)" },
+            { id: 12, title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars", album: "Uptown Special", year: 2014, genre: "pop", duration: "4:30", cover: "linear-gradient(45deg, #834d9b, #d04ed6)" }
+        ];
+        
+        // 分页相关变量
+        const itemsPerPage = 6;
+        let currentPage = 1;
+        let filteredSongs = [...songs];
+        
+        // 渲染歌曲列表
+        function renderSongs() {
+            const songListElement = document.getElementById('song-list');
+            songListElement.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedSongs = filteredSongs.slice(startIndex, endIndex);
+            
+            if (paginatedSongs.length === 0) {
+                songListElement.innerHTML = '<div class="no-results">没有找到匹配的歌曲</div>';
+                return;
+            }
+            
+            paginatedSongs.forEach(song => {
+                const songCard = document.createElement('div');
+                songCard.className = 'song-card';
+                songCard.innerHTML = `
+                    <div class="album-art" style="background: ${song.cover};"></div>
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist}</div>
+                        <div class="song-meta">
+                            <span>${song.album} · ${song.year}</span>
+                            <span>${song.duration}</span>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加点击事件跳转到详情页
+                songCard.addEventListener('click', () => {
+                    window.location.href = `detail.html?id=${song.id}`;
+                });
+                
+                songListElement.appendChild(songCard);
+            });
+        }
+        
+        // 渲染分页控件
+        function renderPagination() {
+            const paginationElement = document.getElementById('pagination-controls');
+            const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
+            
+            // 清空现有控件
+            paginationElement.innerHTML = '';
+            
+            // 首页按钮
+            const firstButton = document.createElement('button');
+            firstButton.className = 'first-last page-btn';
+            firstButton.innerHTML = '<i class="fas fa-angle-double-left"></i>';
+            firstButton.disabled = currentPage === 1;
+            firstButton.addEventListener('click', () => {
+                currentPage = 1;
+                renderSongs();
+                renderPagination();
+            });
+            paginationElement.appendChild(firstButton);
+            
+            // 上一页按钮
+            const prevButton = document.createElement('button');
+            prevButton.className = 'page-btn';
+            prevButton.innerHTML = '<i class="fas fa-angle-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderSongs();
+                    renderPagination();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+            
+            // 页码按钮
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderSongs();
+                    renderPagination();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+            
+            // 下一页按钮
+            const nextButton = document.createElement('button');
+            nextButton.className = 'page-btn';
+            nextButton.innerHTML = '<i class="fas fa-angle-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderSongs();
+                    renderPagination();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+            
+            // 尾页按钮
+            const lastButton = document.createElement('button');
+            lastButton.className = 'first-last page-btn';
+            lastButton.innerHTML = '<i class="fas fa-angle-double-right"></i>';
+            lastButton.disabled = currentPage === totalPages;
+            lastButton.addEventListener('click', () => {
+                currentPage = totalPages;
+                renderSongs();
+                renderPagination();
+            });
+            paginationElement.appendChild(lastButton);
+            
+            // 输入框和跳转按钮
+            const pageInput = document.createElement('input');
+            pageInput.type = 'number';
+            pageInput.min = '1';
+            pageInput.max = totalPages;
+            pageInput.value = currentPage;
+            pageInput.className = 'page-input';
+            
+            const goButton = document.createElement('button');
+            goButton.className = 'go-btn';
+            goButton.textContent = '跳转';
+            goButton.addEventListener('click', () => {
+                const page = parseInt(pageInput.value);
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    renderSongs();
+                    renderPagination();
+                }
+            });
+            
+            paginationElement.appendChild(pageInput);
+            paginationElement.appendChild(goButton);
+        }
+        
+        // 搜索和过滤功能
+        function setupFilters() {
+            const searchInput = document.getElementById('search-input');
+            const genreFilter = document.getElementById('genre-filter');
+            const yearFilter = document.getElementById('year-filter');
+            
+            const filterSongs = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const genre = genreFilter.value;
+                const year = yearFilter.value;
+                
+                filteredSongs = songs.filter(song => {
+                    const matchesSearch = song.title.toLowerCase().includes(searchTerm) || 
+                                          song.artist.toLowerCase().includes(searchTerm) || 
+                                          song.album.toLowerCase().includes(searchTerm);
+                    const matchesGenre = genre ? song.genre === genre : true;
+                    const matchesYear = year ? song.year === parseInt(year) : true;
+                    
+                    return matchesSearch && matchesGenre && matchesYear;
+                });
+                
+                currentPage = 1;
+                renderSongs();
+                renderPagination();
+            };
+            
+            searchInput.addEventListener('input', filterSongs);
+            genreFilter.addEventListener('change', filterSongs);
+            yearFilter.addEventListener('change', filterSongs);
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSongs();
+            renderPagination();
+            setupFilters();
+        });
+    </script>
+
+    
+
+
+    
+</body>
+</html>
