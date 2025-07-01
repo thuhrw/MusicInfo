@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音乐库 - 歌曲列表</title>
+    <title>{{ singer.name }} - 歌曲详情</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,247 +12,212 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+                
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            color: #fff;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
             min-height: 100vh;
             padding: 20px;
         }
-
+                
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-
-        header {
-            text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        header h1 {
-            font-size: 3.2rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        .btn-artist {
+        
+        .song-link {
             color : inherit;
             text-decoration : none;
         }
-
-        .song-link {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .song-link strong {
-            color: #ff7e5f;
-            font-size: 1.4rem;
-        }
-
-        .song-link:hover strong {
-            color: #feb47b;
-            text-decoration: underline;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-top: 30px;
-            flex-wrap: nowrap;
-        }
-
-        .page-link {
-            display: inline-block;
-            padding: 10px 16px;
-            color: #f0f0f0;
-            text-decoration: none;
-            font-size: 1rem;
-            ransition: color 0.2s ease;
-            border-radius: 6px;
-            background: none;
-            border: none;
-        }
-
-        .page-link:hover:not(.disabled) {
-            color: #ff7e5f;
-        }
-
-        .page-link.disabled {
-            color: #888;
-            cursor: not-allowed;
-        }
-
-        .page-link.first-last {
-            font-weight: normal;
-        }
-
-        .page-info {
-            color: #fff;
-            padding: 0 15px;
-            font-size: 1rem;
-            background: none;
-        }
-
-        .page-jump {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .page-input {
-            width: 70px;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            font-size: 1rem;
-            text-align: center;
-        }
-
-        .go-btn {
-            padding: 10px 16px;
-            background: rgba(255, 126, 95, 0.7);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.2s ease;
-        }
-
-        .go-btn:hover {
-            background: rgba(255, 126, 95, 0.9);
-        }
-
         
-
-    
-
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 40px;
-            opacity: 0.7;
-            font-size: 0.9rem;
+        .singer-detail-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 20px 0;
         }
-
-        @media (max-width: 768px) {
-            .search-section {
-                flex-direction: column;
-            }
-
-            .search-box {
-                max-width: 100%;
-            }
-
-            .filters {
-                display: flex;
-                width: 100%;
-                gap: 10px;
-            }
-
-            .filters select {
-                flex-grow: 1;
-            }
-
-            .pagination {
-                gap: 5px;
-            }
-
-            .pagination button,
-            .pagination input {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-
-            header h1 {
-                font-size: 2.5rem;
-            }
+                
+        .singer-header {
+            display: flex;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 30px;
+            position: relative;
+        }
+                
+        .singer-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+            margin-right: 30px;
+            flex-shrink: 0;
+        }
+                
+        .singer-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+                
+        .singer-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+                
+        .artist-name {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+                
+        .artist-name a {
+            color: #FFD700;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .song-title {
+            text-align: center;
+            font-family: 'Segoe UI';
+            font-size: 1rem;
+            color: #39c5bb;   
+        }
+                
+        .artist-name a:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+                
+        .artist-name i {
+            margin-right: 8px;
+        }
+                
+        .singer-url {
+            margin-top: 15px;
+        }
+                
+        .original-link {
+            display: inline-flex;
+            align-items: center;
+            background: #FF6B6B;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+                
+        .original-link:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+                
+        .singer-body {
+            padding: 30px;
+            display: flex;
+        }
+                
+        .desc-section {
+            flex: 1;
+            padding-right: 30px;
+        }
+                
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+                
+        .section-title i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+                
+        .desc-content {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+                
+        .singer-section {
+            flex: 1;
+        }
+        
+        .song-image {
+            width: 120px;   
+            height: auto;  
+            object-fit: cover; 
         }
     </style>
-
-    
-
 </head>
-
 <body>
     <div class="container">
-        <header>
-            <h1><i class="fas fa-music"></i> 音乐库</h1>
-            <p>MusicFans</p>
+        <div class="singer-detail-card">
+            <div class="singer-header">
+                <img src="{{ MEDIA_URL }}singerpics/{{ singer.num }}.jpg" alt="{{ singer.name }}封面" class="singer-image">
+                <div class="singer-info">
+                    <h1 class="singer-title">{{ singer.name }}</h1>
+                    <div class="singer-url">
+                        <a href="{{ singer.url }}" class="original-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Explore Now
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-            <div class="header-buttons">
-                <a href="/index/MUSIC/artist?page=1" class="btn btn-artist">
-                    <i class="fas fa-users"></i> Artist Library
-                </a>
+            <div class="singer-body">
+                <div class="desc-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-pencil"></i> 简介
+                    </h2>
+                    <div class="desc-content">{{ singer.desc }}</div>
+                </div>
+
+                <div class="singer-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-music"></i> 歌手歌曲
+                    </h2>
                 
+                    <div class="song-list" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                        {% for song in song_list %}
+                        <a href="/index/MUSIC/{{song.id}}" class="song-link">
+                            <div class="song-item">
+                                <img src="{{ MEDIA_URL }}songpics/{{ song.num }}.jpg" alt={{song.name}} class="song-image">
+                                <div class="song-info">
+                                    <div class="song-title">{{song.name}}</div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-
-        </header>
-        <h1>Music Library</h1>
-        <br>
-        {% for song in songs %}
-        <div class="song-item">
-            <a href="/index/MUSIC/{{ song.id }}" class="song-link">
-                <strong>{{ song.name }}</strong>
-            </a>
-            <hr>
-            <br>
         </div>
-        {% endfor %}
-        
-
-
-        <div class="pagination">
-            {% if songs.has_previous %}
-            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
-            <a href="?page={{ songs.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
-            {% else %}
-            <span class="page-link first-last disabled">&laquo; 首页</span>
-            <span class="page-link disabled">上一页</span>
-            {% endif %}
-
-            <span class="page-info">第 {{ songs.number }} 页 / 共 {{ songs.paginator.num_pages }} 页</span>
-
-            <div class="page-jump">
-                <form method="get" action="{{base_url}}">
-                    {% for key, value in request.GET.items %}
-                    {% if key != 'page' %}
-                    <input type="hidden" name="{{ key }}" value="{{ value }}">
-                    {% endif %}
-                    {% endfor %}
-                    <input type="number" class="page-input" name="page" min="1" max="{{ songs.paginator.num_pages }}" value="{{ songs.number }}" placeholder="页码">
-                    <button type="submit" class="go-btn">跳转</button>
-                </form>
-            </div>
-
-            {% if songs.has_next %}
-            <a href="?page={{ songs.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
-            <a href="?page={{ songs.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
-            {% else %}
-            <span class="page-link disabled">下一页</span>
-            <span class="page-link first-last disabled">末页 &raquo;</span>
-            {% endif %}
-        </div>
+    </div>
 </body>
-
 </html>

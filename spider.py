@@ -93,9 +93,9 @@ def get_info():
                 response1 = requests.get(url1, headers=headers)
                 response1.encoding = "utf-8"
                 soup1 = BeautifulSoup(response1.text, "lxml")  # soup1为某一歌手介绍主页
-                artist_desc = soup1.find("meta", attrs={"name": "description"})[
-                    "content"
-                ]
+                div = soup1.find("div", class_="n-artdesc")  # 按class查找
+                p = div.find("p")  # 找第一个段落
+                artist_desc = p.get_text(strip=False).strip()
 
                 url2 = "https://music.163.com/artist/?id=" + artist_id
                 response2 = requests.get(url2, headers=headers)

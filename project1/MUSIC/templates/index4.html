@@ -222,11 +222,6 @@
             animation: fadeIn 0.5s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         .comment-content {
             font-size: 1.1rem;
             margin-bottom: 15px;
@@ -313,13 +308,14 @@
     <div class="container">
         <div class="song-detail-card">
             <div class="song-header">
-                <img src="{{ MEDIA_URL }}{{ song.num }}.jpg" alt="{{ song.name }}封面" class="song-image">
+                <img src="{{ MEDIA_URL }}songpics/{{ song.num }}.jpg" alt="{{ song.name }}封面" class="song-image">
                 <div class="song-info">
                     <h1 class="song-title">{{ song.name }}</h1>
                     <div class="artist-name">
                         <i class="fas fa-user"></i>
-                        <a href="#">{{ song.artist }}</a>
+                        <a href="/index/MUSIC/artist/{{artistid}}">{{ song.artist }}</a>
                     </div>
+                    
                     <div class="song-url">
                         <a href="{{ song.url }}" class="original-link" target="_blank">
                             <i class="fas fa-external-link-alt"></i>
@@ -328,18 +324,22 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="song-body">
                 <div class="lyrics-section">
-                    <h2 class="section-title"><i class="fas fa-music"></i> 歌词</h2>
+                    <h2 class="section-title">
+                        <i class="fas fa-music"></i> 歌词
+                    </h2>
                     <div class="lyrics-content">{{ song.lyric }}</div>
                 </div>
-                
+
                 <div class="comments-section">
-                    <h2 class="section-title"><i class="fas fa-comments"></i> 评论</h2>
-                    
+                    <h2 class="section-title">
+                        <i class="fas fa-comments"></i> 评论
+                    </h2>
+
                     <div class="comment-form">
-                        <form method="post">
+                        <form action="/index/comment/{{ song.id }}" method="post">
                             {% csrf_token %}
                             <textarea name="content" placeholder="写下你的评论..."></textarea>
                             <button type="submit" class="submit-btn">
@@ -347,15 +347,15 @@
                             </button>
                         </form>
                     </div>
-                    
+
                     <div class="comment-list">
                         {% for comment in comments %}
                         <div class="comment-item">
-                            <div class="comment-content">{{ comment.content }}</div>
+                            <div class="comment-content">{{ comment.context }}</div>
                             <div class="comment-meta">
                                 <span>评论时间: {{ comment.created_at }}</span>
                             </div>
-                            <form method="post" class="delete-form">
+                            <form action="/index/delcomment/{{ song.id }}" method="post" class="delete-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="delete_comment" value="{{ comment.id }}">
                                 <button type="submit" class="delete-btn" title="删除评论">
@@ -372,15 +372,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="divider"></div>
-            
             <div class="stats-bar">
                 <div class="stat-item">
                     <div class="stat-value">{{ comments|length }}</div>
                     <div class="stat-label">评论数</div>
                 </div>
-                
             </div>
         </div>
     </div>

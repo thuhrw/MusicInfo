@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
-from .models import Song, Singer
+from .models import Song, Singer, Comment
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -9,9 +9,30 @@ from django.shortcuts import render
 
 def show_song(request, id):
     song = Song.objects.get(id=id)
+    artist = Singer.objects.get(name=song.artist)
+    artistid = artist.id
+    comments = Comment.objects.filter(num=id)
 
     return render(
-        request, "index4.html", {"song": song, "MEDIA_URL": settings.MEDIA_URL}
+        request,
+        "index4.html",
+        {
+            "song": song,
+            "MEDIA_URL": settings.MEDIA_URL,
+            "artistid": artistid,
+            "comments": comments[::-1],
+        },
+    )
+
+
+def show_singer(request, id):
+    singer = Singer.objects.get(id=id)
+    song_list = Song.objects.filter(artist=singer.name)
+
+    return render(
+        request,
+        "index6.html",
+        {"singer": singer, "MEDIA_URL": settings.MEDIA_URL, "song_list": song_list},
     )
 
 
@@ -59,13 +80,16 @@ def show_artistlist(request):
     )
 
 
-# def comment(request, id):
-#     data = request.POST
-#     # 将新的消息添加到数据库中
-#     user = data["user"]
-#     comment_content = data["content"]
-#     blog = Blog.objects.get(id=id)
-#     obj = Comment(blog=blog, user=user, comment_content=comment_content)
-#     obj.full_clean()  # 对数据进行验证
-#     obj.save()  # 存储在表中
-#     return HttpResponseRedirect(f"/index/blog/{id}")  # 将页面重定向到博客的url
+def comment(request, id):
+    content = request.POST.get("content")
+    obj = Comment(num=id, context=content)
+    obj.full_clean()
+    obj.save()
+    return HttpResponseRedirect(f"/index/MUSIC/{id}")
+
+
+def delcomment(request, id):
+    iden = request.POST.get("delete_comment")
+    comment = Comment.objects.get(id=iden)
+    comment.delete()
+    return HttpResponseRedirect(f"/index/MUSIC/{id}")

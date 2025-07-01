@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,19 +124,6 @@
             color: #ff7e5f;
         }
         
-        .song-artist {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-        
-        .song-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
-            opacity: 0.7;
-        }
-        
         .pagination {
             display: flex;
             justify-content: center;
@@ -202,53 +188,71 @@
             background: rgba(0, 0, 0, 0.3);
         }
         
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 40px;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-        
-        
     </style>
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-music"></i> 音乐库</h1>
+            <h1>
+                <i class="fas fa-music"></i> 音乐库
+            </h1>
             <p>MusicFans</p>
-            
+
             <div class="header-buttons">
                 <a href="/index/MUSIC/artist?page=1" class="btn-artist">
                     <i class="fas fa-users"></i> Artist Library
                 </a>
             </div>
+
         </header>
 
         <section class="song-grid">
             {% for song in songs %}
             <div class="song-card" onclick="window.location.href='/index/MUSIC/{{ song.id }}'">
-                <!-- 使用不同的渐变背景 -->
-                <div class="album-art" style="background:url({{ MEDIA_URL }}{{ song.num }}.jpg)center/cover"></div>
+                <div class="album-art" style="background:url({{ MEDIA_URL }}songpics/{{ song.num }}.jpg)center/cover"></div>
+
                 <div class="song-info">
                     <div class="song-title">{{ song.name }}</div>
                 </div>
+
             </div>
             {% endfor %}
         </section>
 
         <div class="pagination">
             {% if songs.has_previous %}
-            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
-            <a href="?page={{ songs.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
+                <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
+                <a href="?page={{ songs.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
             {% else %}
-            <span class="page-link first-last disabled">&laquo; 首页</span>
-            <span class="page-link disabled">上一页</span>
+                <span class="page-link first-last disabled">&laquo; 首页</span>
+                <span class="page-link disabled">上一页</span>
             {% endif %}
 
-            <span class="page-info">第 {{ songs.number }} 页 / 共 {{ songs.paginator.num_pages }} 页</span>
+            
+            {% if songs.number > 3 %}
+                <a href="?page=1" class="page-num">1</a>
+                {% if songs.number > 4 %}
+                <span class="page-num ellipsis">...</span>
+                {% endif %}
+            {% endif %}
+
+            {% for num in songs.paginator.page_range %}
+                {% if num > songs.number|add:'-3' and num < songs.number|add:'3' %}
+                    {% if num == songs.number %}
+                        <span class="page-num current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-num">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if songs.number < songs.paginator.num_pages|add:'-2' %}
+                {% if songs.number < songs.paginator.num_pages|add:'-3' %}
+                    <span class="page-num ellipsis">...</span>
+                {% endif %}
+                <a href="?page={{ songs.paginator.num_pages }}" class="page-num">{{ songs.paginator.num_pages }}</a>
+            {% endif %}
 
             <div class="page-jump">
                 <form method="get" action="{{base_url}}">
@@ -263,14 +267,14 @@
             </div>
 
             {% if songs.has_next %}
-            <a href="?page={{ songs.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
-            <a href="?page={{ songs.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
+                <a href="?page={{ songs.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
+                <a href="?page={{ songs.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
             {% else %}
-            <span class="page-link disabled">下一页</span>
-            <span class="page-link first-last disabled">末页 &raquo;</span>
+                <span class="page-link disabled">下一页</span>
+                <span class="page-link first-last disabled">末页 &raquo;</span>
             {% endif %}
+            <span class="page-info">第 {{ songs.number }} 页 / 共 {{ songs.paginator.num_pages }} 页</span>
         </div>
     </div>
 </body>
-
 </html>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Song(models.Model):
@@ -17,3 +18,9 @@ class Singer(models.Model):
     pic_url = models.CharField()
     desc = models.CharField()
     url = models.CharField()
+
+
+class Comment(models.Model):
+    num = models.IntegerField()
+    context = models.CharField()
+    created_at = models.DateTimeField(default=timezone.now)
