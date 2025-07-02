@@ -8,4 +8,5 @@ urlpatterns = [
     path("MUSIC/artist/<int:id>", views.show_singer),
     path("comment/<int:id>", views.comment),
     path("delcomment/<int:id>", views.delcomment),
+    path("search", views.search),
 ]

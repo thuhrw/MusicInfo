@@ -123,6 +123,89 @@
             margin-bottom: 8px;
             color: #ff7e5f;
         }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            padding: 0 20px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .search-box i {
+            font-size: 1.2rem;
+            color: #39c5bb;
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 15px 0;
+            width: 100%;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-btn {
+            background: linear-gradient(to right, #39c5bb,rgb(191, 0, 255)); 
+            {% comment %} <miku, 清华紫> {% endcomment %}
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 0 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .filters select {
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
         
         .pagination {
             display: flex;
@@ -200,6 +283,29 @@
                 </a>
             </div>
         </header>
+
+        <section class="search-section">
+            <form id="search-form" action="/index/search" method="GET">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" name="q" placeholder="搜索歌曲、歌手或专辑..." required>
+                    </div>
+                    <button type="submit" class="search-btn">搜索</button>
+
+
+                    <div class="filters">
+                        <select id="type-filter" name="type">
+                            <option value="artist">歌手</option>
+                            <option value="song">歌曲</option>
+                        
+                        </select>
+                        </div>
+                </div>
+                
+                
+            </form>
+        </section>
 
         <section class="singer-grid">
             {% for singer in singers %}

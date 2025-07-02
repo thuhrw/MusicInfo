@@ -284,30 +284,26 @@
         </header>
         
         <section class="search-section">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="search-input" placeholder="搜索歌曲、歌手或专辑...">
-            </div>
-            
-            <div class="filters">
-                <select id="genre-filter">
-                    <option value="">所有流派</option>
-                    <option value="pop">流行</option>
-                    <option value="rock">摇滚</option>
-                    <option value="jazz">爵士</option>
-                    <option value="classical">古典</option>
-                    <option value="hiphop">嘻哈</option>
-                </select>
+            <form id="search-form" action="/search/" method="GET">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" name="q" placeholder="搜索歌曲、歌手或专辑..." required>
+                    </div>
+                    <button type="submit" class="search-btn">搜索</button>
+                </div>
                 
-                <select id="year-filter">
-                    <option value="">所有年份</option>
-                    <option value="2023">2023年</option>
-                    <option value="2022">2022年</option>
-                    <option value="2021">2021年</option>
-                    <option value="2020">2020年</option>
-                    <option value="2019">2019年</option>
-                </select>
-            </div>
+                <div class="filters">
+                    <select id="type-filter" name="type">
+                        <option value="artist">歌手</option>
+                        <option value="song">歌曲</option>
+                        
+                    </select>
+
+                    
+                    
+                </div>
+            </form>
         </section>
         <section class="song-grid" id="song-list">
             <!-- 歌曲卡片将通过JavaScript动态生成 -->

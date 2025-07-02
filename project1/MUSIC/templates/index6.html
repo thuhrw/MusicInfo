@@ -106,6 +106,10 @@
         .singer-url {
             margin-top: 15px;
         }
+
+        .return-url {
+            margin-top: 15px;
+        }
                 
         .original-link {
             display: inline-flex;
@@ -121,6 +125,24 @@
         }
                 
         .original-link:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        .return {
+            display: inline-flex;
+            align-items: center;
+            background: #FF6B6B;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+                
+        .return:hover {
             background: #ff5252;
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
@@ -185,6 +207,12 @@
                         <a href="{{ singer.url }}" class="original-link" target="_blank">
                             <i class="fas fa-external-link-alt"></i>
                             Explore Now
+                        </a>
+                    </div>
+                    <div class="return-url">
+                        <a href="/index/MUSIC" class="return" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Back
                         </a>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
+from django.db.models import Q
 
 
 def show_song(request, id):
@@ -93,3 +94,60 @@ def delcomment(request, id):
     comment = Comment.objects.get(id=iden)
     comment.delete()
     return HttpResponseRedirect(f"/index/MUSIC/{id}")
+
+
+def search(request):
+
+    query = request.GET.get("q")
+    search_type = request.GET.get("type")
+    if search_type == "artist":
+        singer_list = Singer.objects.filter(
+            Q(name__contains=query) | Q(desc__contains=query)
+        )
+        paginator = Paginator(singer_list, 8)
+
+        page = request.GET.get("page")
+        try:
+            singers = paginator.page(page)
+        except PageNotAnInteger:
+
+            singers = paginator.page(1)
+        except EmptyPage:
+
+            singers = paginator.page(paginator.num_pages)
+
+        base_url = "/index/search?type=artist&q=" + query
+        return render(
+            request,
+            "index7.html",
+            {"singers": singers, "base_url": base_url, "MEDIA_URL": settings.MEDIA_URL, "query": query},
+        )
+
+    if search_type == "song":
+        song_list = Song.objects.filter(
+            Q(name__contains=query)
+            | Q(artist__contains=query)
+            | Q(lyric__contains=query)
+        )
+        paginator = Paginator(song_list, 8)
+
+        page = request.GET.get("page")
+        try:
+            songs = paginator.page(page)
+        except PageNotAnInteger:
+
+            songs = paginator.page(1)
+        except EmptyPage:
+
+            songs = paginator.page(paginator.num_pages)
+
+        base_url = "/index/search?type=song&q=" + query
+
+        return render(
+            request,
+            "index8.html",
+            {"songs": songs, "base_url": base_url, "MEDIA_URL": settings.MEDIA_URL, "query": query},
+        )
+        
+        
+
