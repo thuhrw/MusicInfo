@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from adjustText import adjust_text
 
+# 解释器选择全局
 
 file_path = r"C:\Users\14395\Desktop\git\MusicInfo\download_pop\meancopy.csv"
 df = pd.read_csv(file_path, encoding="utf-8")

@@ -19,7 +19,7 @@ reader = csv.DictReader(csvfile)
 writer = csv.writer(file)
 
 for row_num, row in enumerate(reader):
-    if row_num % 2 == 0:
+    if row_num % 2 == 0:  # csv中隔行有数据
         continue
 
     id = row["artist_id"]
@@ -34,3 +34,5 @@ for row_num, row in enumerate(reader):
     first_paragraph = intro_div.find("p")
     intro_text = first_paragraph.get_text(strip=False).strip()
     writer.writerow((intro_text,))
+
+# 补爬歌手简介，一开始爬的简介都只有内容的一半

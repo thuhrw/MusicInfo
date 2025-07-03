@@ -23,6 +23,9 @@ writer.writerow(("year", "count"))
 
 
 def func():
+    """_summary_
+    数据分析时爬取歌曲年份
+    """
     arr = []
     mydict = {}
     tmp = 0
@@ -30,19 +33,21 @@ def func():
     songcsvfile = open(r"C:\Users\14395\Desktop\git\MusicInfo\song.csv", mode="r")
     reader = csv.DictReader(songcsvfile)
     for row_num, row in enumerate(reader):
-        if row_num % 2 == 0:
+        if row_num % 2 == 0:  # 由于我的csv中是隔行有数据
             continue
         song_url = row["song_url"].strip()
 
         response1 = requests.get(song_url, headers=headers)
         response1.encoding = "utf-8"
-        soup1 = BeautifulSoup(response1.text, "lxml")
+        soup1 = BeautifulSoup(response1.text, "lxml")  # 歌曲网页
 
         album_url = soup1.find("meta", attrs={"property": "music:album"})["content"]
         response2 = requests.get(album_url, headers=headers)
         response2.encoding = "utf-8"
-        soup2 = BeautifulSoup(response2.text, "lxml")
-        date_meta = soup2.find("meta", attrs={"property": "music:release_date"})
+        soup2 = BeautifulSoup(response2.text, "lxml")  # 通过歌曲网页进入其所在专辑页面
+        date_meta = soup2.find(
+            "meta", attrs={"property": "music:release_date"}
+        )  # 提取专辑的发布时间
         if not date_meta:  # 防御性编程，如果遇到bug就跳过
             continue
         date = date_meta.get("content", "").strip()
@@ -65,4 +70,4 @@ def func():
 
 func()
 
-# tmp仅仅起到简易进度条作用，懒得import了
+# tmp仅仅起到简易进度条作用，懒得import tqdm了

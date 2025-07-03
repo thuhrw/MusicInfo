@@ -20,6 +20,9 @@ headers = {
 
 
 def download_songimg(image_url, save_dir, filename=None):
+    """_summary_
+    通过爬到的歌曲图片url,保存为本地save_dir/filename
+    """
     save_path = os.path.join(save_dir, filename)
     response = requests.get(image_url, headers=headers)
     with open(save_path, "wb") as f:
@@ -28,6 +31,9 @@ def download_songimg(image_url, save_dir, filename=None):
 
 
 def download_img(image_url, save_dir, filename=None):
+    """_summary_
+    通过爬到的歌手图片url,保存为本地save_dir/filename
+    """
     save_path = os.path.join(save_dir, filename)
     response = requests.get(image_url, headers=headers)
     with open(save_path, "wb") as f:
@@ -36,6 +42,9 @@ def download_img(image_url, save_dir, filename=None):
 
 
 def get_lyric(song_id):
+    """_summary_
+    利用网易云api访问歌曲文件,返回的是json,提取歌词后,用正则表达式去除时间戳
+    """
     url = f"http://music.163.com/api/song/lyric?id={song_id}+&lv=1&tv=-1"
     r = requests.get(url, headers=headers)
     r.encoding = "utf-8"
@@ -47,6 +56,10 @@ def get_lyric(song_id):
 
 
 def get_info():
+    """_summary_
+    爬虫的主函数
+    将爬取的内容写在指定文件中
+    """
     singercsvfile = open(
         r"C:\Users\14395\Desktop\git\MusicInfo\singer.csv", "a", errors="ignore"
     )
@@ -69,6 +82,8 @@ def get_info():
     ls1 = [1001]
     # ls2 = [-1, 0, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90] # initial的值
     ls2 = [-1]
+
+    # 网易云歌手主页面，这里ls1和ls2只有一项是为了只爬取一页的100位歌手
 
     for i in ls1:
         for j in ls2:
@@ -150,3 +165,5 @@ def get_info():
 
 
 get_info()
+
+# 直接运行这个函数可能会因为网易云严格的反爬措施而报错，建议在一些地方调整参数，分多次爬取或者每次爬取一部分内容

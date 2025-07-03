@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>歌手列表 - 音乐平台</title>
+    <title>音乐库 - 歌曲列表</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -72,14 +72,14 @@
             margin-right: 8px;
         }
 
-        .singer-grid {
+        .song-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
         
-        .singer-card {
+        .song-card {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 15px;
             overflow: hidden;
@@ -89,7 +89,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .singer-card:hover {
+        .song-card:hover {
             transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
@@ -113,11 +113,11 @@
             background: linear-gradient(to top, rgba(26, 42, 108, 0.7), transparent);
         }
         
-        .singer-info {
+        .song-info {
             padding: 20px;
         }
         
-        .singer-title {
+        .song-title {
             font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 8px;
@@ -194,7 +194,7 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
         }
-
+        
         .filters select {
             padding: 15px 20px;
             border-radius: 50px;
@@ -273,17 +273,22 @@
         
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>歌手列表</h1>
+            <h1>
+                <i class="fas fa-music"></i> 音乐库
+            </h1>
+            <p>MusicFans</p>
+
             <div class="header-buttons">
-                <a href="/index/MUSIC?page=1" class="btn-artist">
-                    <i class="fas fa-users"></i> Song Library
+                <a href="/index/MUSIC/artist?page=1" class="btn-artist">
+                    <i class="fas fa-users"></i> Artist Library
                 </a>
             </div>
-        </header>
 
+        </header>
         <section class="search-section">
             <form id="search-form" action="/index/search" method="GET">
                 <div class="search-container">
@@ -307,51 +312,56 @@
             </form>
         </section>
 
-        <section class="singer-grid">
-            {% for singer in singers %}
-            <div class="singer-card" onclick="window.location.href='/index/MUSIC/artist/{{ singer.id }}'">
-                <div class="album-art" style="background:url({{ MEDIA_URL }}singerpics/{{ singer.num }}.jpg)center/cover"></div>
 
-                <div class="singer-info">
-                    <div class="singer-title">{{ singer.name }}</div>
+
+
+
+        <section class="song-grid">
+            {% for song in songs %}
+            <div class="song-card" onclick="window.location.href='/index/MUSIC/{{ song.id }}'">
+                <div class="album-art" style="background:url({{ MEDIA_URL }}songpics/{{ song.num }}.jpg)center/cover"></div>
+
+                <div class="song-info">
+                    <div class="song-title">{{ song.name }}</div>
                 </div>
+
             </div>
             {% endfor %}
         </section>
 
         <div class="pagination">
-            {% if singers.has_previous %}
+            {% if songs.has_previous %}
                 <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
-                <a href="?page={{ singers.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
+                <a href="?page={{ songs.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
             {% else %}
                 <span class="page-link first-last disabled">&laquo; 首页</span>
                 <span class="page-link disabled">上一页</span>
             {% endif %}
 
-
-            {% if singers.number > 3 %}
-                <a href="?page=1" class="page-num">1</a>
-                {% if singers.number > 4 %}
-                    <span class="page-num ellipsis">...</span>
+            
+            {% if songs.number > 3 %}
+                <a href="?type=song&q={{query}}&page=1" class="page-num">1</a>
+                {% if songs.number > 4 %}
+                <span class="page-num ellipsis">...</span>
                 {% endif %}
             {% endif %}
-            {% for num in singers.paginator.page_range %}
-                {% if num > singers.number|add:'-3' and num < singers.number|add:'3' %}
-                    {% if num == singers.number %}
+
+            {% for num in songs.paginator.page_range %}
+                {% if num > songs.number|add:'-3' and num < songs.number|add:'3' %}
+                    {% if num == songs.number %}
                         <span class="page-num current">{{ num }}</span>
                     {% else %}
-                        <a href="?page={{ num }}" class="page-num">{{ num }}</a>
+                        <a href="?type=song&q={{query}}&page={{ num }}" class="page-num">{{ num }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            {% if singers.number < singers.paginator.num_pages|add:'-2' %}
-                {% if singers.number < singers.paginator.num_pages|add:'-3' %}
+
+            {% if songs.number < songs.paginator.num_pages|add:'-2' %}
+                {% if songs.number < songs.paginator.num_pages|add:'-3' %}
                     <span class="page-num ellipsis">...</span>
                 {% endif %}
-                <a href="?page={{ singers.paginator.num_pages }}" class="page-num">{{ singers.paginator.num_pages }}</a>
+                <a href="?type=song&q={{query}}&page={{ songs.paginator.num_pages }}" class="page-num">{{ songs.paginator.num_pages }}</a>
             {% endif %}
-
-
 
             <div class="page-jump">
                 <form method="get" action="{{base_url}}">
@@ -360,21 +370,20 @@
                     <input type="hidden" name="{{ key }}" value="{{ value }}">
                     {% endif %}
                     {% endfor %}
-                    <input type="number" class="page-input" name="page" min="1" max="{{ singers.paginator.num_pages }}" value="{{ singers.number }}" placeholder="页码">
+                    <input type="number" class="page-input" name="page" min="1" max="{{ songs.paginator.num_pages }}" value="{{ songs.number }}" placeholder="页码">
                     <button type="submit" class="go-btn">跳转</button>
                 </form>
             </div>
 
-            {% if singers.has_next %}
-            <a href="?page={{ singers.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
-            <a href="?page={{ singers.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
+            {% if songs.has_next %}
+                <a href="?page={{ songs.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
+                <a href="?page={{ songs.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
             {% else %}
-            <span class="page-link disabled">下一页</span>
-            <span class="page-link first-last disabled">末页 &raquo;</span>
+                <span class="page-link disabled">下一页</span>
+                <span class="page-link first-last disabled">末页 &raquo;</span>
             {% endif %}
-            <span class="page-info">第 {{ singers.number }} 页 / 共 {{ singers.paginator.num_pages }} 页</span>            
+            <span class="page-info">第 {{ songs.number }} 页 / 共 {{ songs.paginator.num_pages }} 页</span>
         </div>
-        
     </div>
 </body>
 </html>

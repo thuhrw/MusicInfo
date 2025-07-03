@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音乐库 - 歌曲列表</title>
+    <title>歌手列表 - 音乐平台</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -12,36 +12,35 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
             padding: 30px 0;
             margin-bottom: 30px;
             position: relative;
         }
-        
+
         header h1 {
             font-size: 3.2rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
             background: linear-gradient(to right, #ff7e5f, #feb47b);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        
+
         header p {
             font-size: 1.2rem;
             opacity: 0.9;
@@ -50,82 +49,47 @@
             line-height: 1.6;
         }
         
-        .search-section {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
+        .btn-artist {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .search-box {
-            flex-grow: 1;
-            position: relative;
-            max-width: 500px;
+        .btn-artist:hover {
+            background: rgba(255, 126, 95, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .search-box input {
-            width: 100%;
-            padding: 15px 20px 15px 50px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-            transition: all 0.3s ease;
+        .btn-artist i {
+            margin-right: 8px;
         }
-        
-        .search-box input:focus {
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 15px rgba(255, 126, 95, 0.5);
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-            font-size: 1.2rem;
-        }
-        
-        .filters select {
-            padding: 15px 20px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        
-        .song-grid {
+
+        .singer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
         
-        .song-card {
+        .singer-card {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 15px;
             overflow: hidden;
-            transition: all 0.3s ease;
             cursor: pointer;
             height: 100%;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .song-card:hover {
+        .singer-card:hover {
             transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
@@ -149,28 +113,98 @@
             background: linear-gradient(to top, rgba(26, 42, 108, 0.7), transparent);
         }
         
-        .song-info {
+        .singer-info {
             padding: 20px;
         }
         
-        .song-title {
+        .singer-title {
             font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 8px;
             color: #ff7e5f;
         }
-        
-        .song-artist {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            opacity: 0.9;
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 40px;
         }
-        
-        .song-meta {
+
+        .search-container {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
-            opacity: 0.7;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            padding: 0 20px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .search-box i {
+            font-size: 1.2rem;
+            color: #39c5bb;
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 15px 0;
+            width: 100%;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-btn {
+            background: linear-gradient(to right, #39c5bb,rgb(191, 0, 255)); 
+            {% comment %} <miku, 清华紫> {% endcomment %}
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 0 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .filters select {
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            cursor: pointer;
+            margin-right: 10px;
         }
         
         .pagination {
@@ -182,7 +216,7 @@
             flex-wrap: wrap;
         }
         
-        .pagination button, .pagination input {
+        .pagination a, .pagination span, .pagination button, .pagination input {
             padding: 12px 20px;
             background: rgba(255, 255, 255, 0.1);
             border: none;
@@ -191,13 +225,17 @@
             cursor: pointer;
             font-size: 1rem;
             transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .pagination button:hover:not(:disabled) {
+        .pagination a:hover:not(.disabled) {
             background: rgba(255, 126, 95, 0.8);
         }
         
-        .pagination button:disabled {
+        .pagination .disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
@@ -210,9 +248,9 @@
             justify-content: center;
         }
         
-        .pagination .active {
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            font-weight: bold;
+        .pagination .page-info {
+            background: transparent;
+            padding: 0 15px;
         }
         
         .pagination .page-input {
@@ -233,265 +271,110 @@
             background: rgba(0, 0, 0, 0.3);
         }
         
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 40px;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .search-section {
-                flex-direction: column;
-            }
-            
-            .search-box {
-                max-width: 100%;
-            }
-            
-            .filters {
-                display: flex;
-                width: 100%;
-                gap: 10px;
-            }
-            
-            .filters select {
-                flex-grow: 1;
-            }
-            
-            .pagination {
-                gap: 5px;
-            }
-            
-            .pagination button, .pagination input {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            
-            header h1 {
-                font-size: 2.5rem;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-music"></i> 音乐库</h1>
-            <p>MusicFan</p>
+            <h1>歌手列表</h1>
+            <div class="header-buttons">
+                <a href="/index/MUSIC?page=1" class="btn-artist">
+                    <i class="fas fa-users"></i> Song Library
+                </a>
+            </div>
         </header>
 
-        <section class="song-grid" id="song-list">
-            <!-- 歌曲卡片将通过JavaScript动态生成 -->
-        </section>
-        
-        <div class="pagination" id="pagination-controls">
-            <!-- 分页控件将通过JavaScript动态生成 -->
-        </div>
-    </div>
-    <script>
-        // 模拟歌曲数据
-        const songs = [
-            { id: 1, title: "夜空中最亮的星", artist: "逃跑计划", album: "世界", year: 2012, genre: "rock", duration: "4:32", cover: "linear-gradient(45deg, #1a2a6c, #b21f1f)" },
-            { id: 2, title: "晴天", artist: "周杰伦", album: "叶惠美", year: 2003, genre: "pop", duration: "4:29", cover: "linear-gradient(45deg, #3494E6, #EC6EAD)" },
-            { id: 3, title: "Hotel California", artist: "Eagles", album: "Hotel California", year: 1977, genre: "rock", duration: "6:30", cover: "linear-gradient(45deg, #ff7e5f, #feb47b)" },
-            { id: 4, title: "Bohemian Rhapsody", artist: "Queen", album: "A Night at the Opera", year: 1975, genre: "rock", duration: "5:55", cover: "linear-gradient(45deg, #834d9b, #d04ed6)" },
-            { id: 5, title: "Shape of You", artist: "Ed Sheeran", album: "÷", year: 2017, genre: "pop", duration: "3:53", cover: "linear-gradient(45deg, #56ab2f, #a8e063)" },
-            { id: 6, title: "Blinding Lights", artist: "The Weeknd", album: "After Hours", year: 2020, genre: "pop", duration: "3:20", cover: "linear-gradient(45deg, #ff416c, #ff4b2b)" },
-            { id: 7, title: "Take Five", artist: "Dave Brubeck", album: "Time Out", year: 1959, genre: "jazz", duration: "5:24", cover: "linear-gradient(45deg, #1D4350, #A43931)" },
-            { id: 8, title: "Fly Me to the Moon", artist: "Frank Sinatra", album: "It Might as Well Be Swing", year: 1964, genre: "jazz", duration: "2:30", cover: "linear-gradient(45deg, #3a7bd5, #00d2ff)" },
-            { id: 9, title: "稻香", artist: "周杰伦", album: "魔杰座", year: 2008, genre: "pop", duration: "3:43", cover: "linear-gradient(45deg, #56ab2f, #a8e063)" },
-            { id: 10, title: "Sweet Child O'Mine", artist: "Guns N' Roses", album: "Appetite for Destruction", year: 1987, genre: "rock", duration: "5:56", cover: "linear-gradient(45deg, #ff7e5f, #feb47b)" },
-            { id: 11, title: "Bad Guy", artist: "Billie Eilish", album: "When We All Fall Asleep", year: 2019, genre: "pop", duration: "3:14", cover: "linear-gradient(45deg, #141E30, #243B55)" },
-            { id: 12, title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars", album: "Uptown Special", year: 2014, genre: "pop", duration: "4:30", cover: "linear-gradient(45deg, #834d9b, #d04ed6)" }
-        ];
-        
-        // 分页相关变量
-        const itemsPerPage = 6;
-        let currentPage = 1;
-        let filteredSongs = [...songs];
-        
-        // 渲染歌曲列表
-        function renderSongs() {
-            const songListElement = document.getElementById('song-list');
-            songListElement.innerHTML = '';
-            
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedSongs = filteredSongs.slice(startIndex, endIndex);
-            
-            if (paginatedSongs.length === 0) {
-                songListElement.innerHTML = '<div class="no-results">没有找到匹配的歌曲</div>';
-                return;
-            }
-            
-            paginatedSongs.forEach(song => {
-                const songCard = document.createElement('div');
-                songCard.className = 'song-card';
-                songCard.innerHTML = `
-                    <div class="album-art" style="background: ${song.cover};"></div>
-                    <div class="song-info">
-                        <div class="song-title">${song.title}</div>
-                        <div class="song-artist">${song.artist}</div>
-                        <div class="song-meta">
-                            <span>${song.album} · ${song.year}</span>
-                            <span>${song.duration}</span>
-                        </div>
+        <section class="search-section">
+            <form id="search-form" action="/index/search" method="GET">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" name="q" placeholder="搜索歌曲、歌手或专辑..." required>
                     </div>
-                `;
-                
-                // 添加点击事件跳转到详情页
-                songCard.addEventListener('click', () => {
-                    window.location.href = `detail.html?id=${song.id}`;
-                });
-                
-                songListElement.appendChild(songCard);
-            });
-        }
-        
-        // 渲染分页控件
-        function renderPagination() {
-            const paginationElement = document.getElementById('pagination-controls');
-            const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
-            
-            // 清空现有控件
-            paginationElement.innerHTML = '';
-            
-            // 首页按钮
-            const firstButton = document.createElement('button');
-            firstButton.className = 'first-last page-btn';
-            firstButton.innerHTML = '<i class="fas fa-angle-double-left"></i>';
-            firstButton.disabled = currentPage === 1;
-            firstButton.addEventListener('click', () => {
-                currentPage = 1;
-                renderSongs();
-                renderPagination();
-            });
-            paginationElement.appendChild(firstButton);
-            
-            // 上一页按钮
-            const prevButton = document.createElement('button');
-            prevButton.className = 'page-btn';
-            prevButton.innerHTML = '<i class="fas fa-angle-left"></i>';
-            prevButton.disabled = currentPage === 1;
-            prevButton.addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderSongs();
-                    renderPagination();
-                }
-            });
-            paginationElement.appendChild(prevButton);
-            
-            // 页码按钮
-            const startPage = Math.max(1, currentPage - 2);
-            const endPage = Math.min(totalPages, startPage + 4);
-            
-            for (let i = startPage; i <= endPage; i++) {
-                const pageButton = document.createElement('button');
-                pageButton.className = `page-btn ${i === currentPage ? 'active' : ''}`;
-                pageButton.textContent = i;
-                pageButton.addEventListener('click', () => {
-                    currentPage = i;
-                    renderSongs();
-                    renderPagination();
-                });
-                paginationElement.appendChild(pageButton);
-            }
-            
-            // 下一页按钮
-            const nextButton = document.createElement('button');
-            nextButton.className = 'page-btn';
-            nextButton.innerHTML = '<i class="fas fa-angle-right"></i>';
-            nextButton.disabled = currentPage === totalPages;
-            nextButton.addEventListener('click', () => {
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    renderSongs();
-                    renderPagination();
-                }
-            });
-            paginationElement.appendChild(nextButton);
-            
-            // 尾页按钮
-            const lastButton = document.createElement('button');
-            lastButton.className = 'first-last page-btn';
-            lastButton.innerHTML = '<i class="fas fa-angle-double-right"></i>';
-            lastButton.disabled = currentPage === totalPages;
-            lastButton.addEventListener('click', () => {
-                currentPage = totalPages;
-                renderSongs();
-                renderPagination();
-            });
-            paginationElement.appendChild(lastButton);
-            
-            // 输入框和跳转按钮
-            const pageInput = document.createElement('input');
-            pageInput.type = 'number';
-            pageInput.min = '1';
-            pageInput.max = totalPages;
-            pageInput.value = currentPage;
-            pageInput.className = 'page-input';
-            
-            const goButton = document.createElement('button');
-            goButton.className = 'go-btn';
-            goButton.textContent = '跳转';
-            goButton.addEventListener('click', () => {
-                const page = parseInt(pageInput.value);
-                if (page >= 1 && page <= totalPages) {
-                    currentPage = page;
-                    renderSongs();
-                    renderPagination();
-                }
-            });
-            
-            paginationElement.appendChild(pageInput);
-            paginationElement.appendChild(goButton);
-        }
-        
-        // 搜索和过滤功能
-        function setupFilters() {
-            const searchInput = document.getElementById('search-input');
-            const genreFilter = document.getElementById('genre-filter');
-            const yearFilter = document.getElementById('year-filter');
-            
-            const filterSongs = () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                const genre = genreFilter.value;
-                const year = yearFilter.value;
-                
-                filteredSongs = songs.filter(song => {
-                    const matchesSearch = song.title.toLowerCase().includes(searchTerm) || 
-                                          song.artist.toLowerCase().includes(searchTerm) || 
-                                          song.album.toLowerCase().includes(searchTerm);
-                    const matchesGenre = genre ? song.genre === genre : true;
-                    const matchesYear = year ? song.year === parseInt(year) : true;
-                    
-                    return matchesSearch && matchesGenre && matchesYear;
-                });
-                
-                currentPage = 1;
-                renderSongs();
-                renderPagination();
-            };
-            
-            searchInput.addEventListener('input', filterSongs);
-            genreFilter.addEventListener('change', filterSongs);
-            yearFilter.addEventListener('change', filterSongs);
-        }
-        
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', () => {
-            renderSongs();
-            renderPagination();
-            setupFilters();
-        });
-    </script>
-
-    
+                    <button type="submit" class="search-btn">搜索</button>
 
 
-    
+                    <div class="filters">
+                        <select id="type-filter" name="type">
+                            <option value="artist">歌手</option>
+                            <option value="song">歌曲</option>
+                        
+                        </select>
+                        </div>
+                </div>
+                
+                
+            </form>
+        </section>
+
+        <section class="singer-grid">
+            {% for singer in singers %}
+            <div class="singer-card" onclick="window.location.href='/index/MUSIC/artist/{{ singer.id }}'">
+                <div class="album-art" style="background:url({{ MEDIA_URL }}singerpics/{{ singer.num }}.jpg)center/cover"></div>
+
+                <div class="singer-info">
+                    <div class="singer-title">{{ singer.name }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+
+        <div class="pagination">
+            {% if singers.has_previous %}
+                <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
+                <a href="?page={{ singers.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
+            {% else %}
+                <span class="page-link first-last disabled">&laquo; 首页</span>
+                <span class="page-link disabled">上一页</span>
+            {% endif %}
+
+
+            {% if singers.number > 3 %}
+                <a href="?page=1" class="page-num">1</a>
+                {% if singers.number > 4 %}
+                    <span class="page-num ellipsis">...</span>
+                {% endif %}
+            {% endif %}
+            {% for num in singers.paginator.page_range %}
+                {% if num > singers.number|add:'-3' and num < singers.number|add:'3' %}
+                    {% if num == singers.number %}
+                        <span class="page-num current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-num">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if singers.number < singers.paginator.num_pages|add:'-2' %}
+                {% if singers.number < singers.paginator.num_pages|add:'-3' %}
+                    <span class="page-num ellipsis">...</span>
+                {% endif %}
+                <a href="?page={{ singers.paginator.num_pages }}" class="page-num">{{ singers.paginator.num_pages }}</a>
+            {% endif %}
+
+
+
+            <div class="page-jump">
+                <form method="get" action="{{base_url}}">
+                    {% for key, value in request.GET.items %}
+                    {% if key != 'page' %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                    {% endif %}
+                    {% endfor %}
+                    <input type="number" class="page-input" name="page" min="1" max="{{ singers.paginator.num_pages }}" value="{{ singers.number }}" placeholder="页码">
+                    <button type="submit" class="go-btn">跳转</button>
+                </form>
+            </div>
+
+            {% if singers.has_next %}
+            <a href="?page={{ singers.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
+            <a href="?page={{ singers.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
+            {% else %}
+            <span class="page-link disabled">下一页</span>
+            <span class="page-link first-last disabled">末页 &raquo;</span>
+            {% endif %}
+            <span class="page-info">第 {{ singers.number }} 页 / 共 {{ singers.paginator.num_pages }} 页</span>            
+        </div>
+        
+    </div>
 </body>
 </html>

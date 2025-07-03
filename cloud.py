@@ -10,8 +10,13 @@ CSV_FILE = "song.csv"
 LYRIC_COLUMN = "lyric"
 OUTPUT_IMAGE = "wordcloud.png"
 
+# 解释器选择全局
+
 
 def load_lyrics():
+    """_summary_
+    将所有歌词加载进来,作为一个字符串
+    """
     file = pd.read_csv(CSV_FILE, encoding="ANSI")
 
     lyrics = file[LYRIC_COLUMN].dropna().astype(str).tolist()
@@ -19,6 +24,9 @@ def load_lyrics():
 
 
 def processing_lyrics(text):
+    """_summary_
+    处理歌词,去掉一部分信息
+    """
     prefixes = ["作词", "作曲", "演唱", "编曲", "制作人", "歌词"]
     for prefix in prefixes:
         text = re.sub(rf"{prefix}\s*[:]\s*[\u4e00-\u9fa5]+", "", text)
@@ -26,6 +34,10 @@ def processing_lyrics(text):
 
 
 def segment_text(text):
+    """_summary_
+    由于歌曲的信息各不相同，所以前面处理歌词的函数会有遗漏。手动根据词云结果添加停用词
+
+    """
     stopwords = [
         "母带",
         "h3R3",
@@ -114,7 +126,7 @@ def segment_text(text):
         "索尼",
         "林梦洋",
         "设计",
-    ]  # 停用词，我根据生成后的结果手动添加进来的
+    ]
     words = jieba.cut(text)
     return " ".join([word for word in words if word not in stopwords and len(word) > 1])
 

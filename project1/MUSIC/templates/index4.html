@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ song.name }} - 歌曲详情</title>
+    <title>歌手列表 - 音乐平台</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -12,406 +12,368 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #333;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
-        .song-detail-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            margin: 20px 0;
-        }
-        
-        .song-header {
-            display: flex;
-            background: linear-gradient(to right, #4b6cb7, #182848);
-            color: white;
-            padding: 30px;
-            position: relative;
-        }
-        
-        .song-image {
-            width: 220px;
-            height: 220px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            object-fit: cover;
-            margin-right: 30px;
-            flex-shrink: 0;
-        }
-        
-        .song-info {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .song-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: white;
-        }
-        
-        .artist-name {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .artist-name a {
-            color: #FFD700;
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .artist-name a:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .artist-name i {
-            margin-right: 8px;
-        }
-        
-        .song-url {
-            margin-top: 15px;
-        }
 
-        .return-url {
-            margin-top: 15px;
-        }
-
-        
-        .original-link {
-            display: inline-flex;
-            align-items: center;
-            background: #FF6B6B;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .original-link:hover {
-            background: #ff5252;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .return {
-            display: inline-flex;
-            align-items: center;
-            background: #FF6B6B;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .return:hover {
-            background: #ff5252;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .song-body {
-            padding: 30px;
-            display: flex;
-        }
-        
-        .lyrics-section {
-            flex: 1;
-            padding-right: 30px;
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: #3498db;
-        }
-        
-        .lyrics-content {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            max-height: 400px;
-            overflow-y: auto;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .comments-section {
-            flex: 1;
-        }
-        
-        .comment-form {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
+        header {
+            text-align: center;
+            padding: 30px 0;
             margin-bottom: 30px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .comment-form textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            resize: vertical;
-            transition: border-color 0.3s;
-        }
-        
-        .comment-form textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .submit-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .submit-btn i {
-            margin-right: 8px;
-        }
-        
-        .submit-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .comment-list {
-            max-height: 500px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .comment-item {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
             position: relative;
-            border-left: 4px solid #3498db;
-            animation: fadeIn 0.5s ease;
         }
-        
-        .comment-content {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+
+        header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
             line-height: 1.6;
         }
         
-        .comment-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #6c757d;
-            font-size: 0.9rem;
+        .btn-artist {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .delete-btn {
-            background: #e74c3c;
-            color: white;
+        .btn-artist:hover {
+            background: rgba(255, 126, 95, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-artist i {
+            margin-right: 8px;
+        }
+
+        .singer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .singer-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .singer-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-art {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .album-art::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to top, rgba(26, 42, 108, 0.7), transparent);
+        }
+        
+        .singer-info {
+            padding: 20px;
+        }
+        
+        .singer-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ff7e5f;
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            padding: 0 20px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .search-box i {
+            font-size: 1.2rem;
+            color: #39c5bb;
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
             border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            padding: 15px 0;
+            width: 100%;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-btn {
+            background: linear-gradient(to right, #39c5bb,rgb(191, 0, 255)); 
+            {% comment %} <miku, 清华紫> {% endcomment %}
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 0 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .filters select {
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination a, .pagination span, .pagination button, .pagination input {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pagination a:hover:not(.disabled) {
+            background: rgba(255, 126, 95, 0.8);
+        }
+        
+        .pagination .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination .page-btn {
+            min-width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .delete-btn:hover {
-            background: #c0392b;
-            transform: rotate(90deg) scale(1.1);
+        .pagination .page-info {
+            background: transparent;
+            padding: 0 15px;
         }
         
-        .empty-comments {
+        .pagination .page-input {
+            width: 70px;
             text-align: center;
-            padding: 30px;
-            color: #6c757d;
-            font-style: italic;
+            background: rgba(0, 0, 0, 0.3);
         }
         
-        .empty-comments i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #e9ecef;
+        .pagination .go-btn {
+            background: rgba(255, 126, 95, 0.7);
         }
         
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #ccc, transparent);
-            margin: 20px 0;
+        .pagination .go-btn:hover {
+            background: rgba(255, 126, 95, 0.9);
         }
         
-        .stats-bar {
-            display: flex;
-            justify-content: space-around;
-            background: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 0 0 10px 10px;
+        .pagination .first-last {
+            background: rgba(0, 0, 0, 0.3);
         }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #FFD700;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
         
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="song-detail-card">
-            <div class="song-header">
-                <img src="{{ MEDIA_URL }}songpics/{{ song.num }}.jpg" alt="{{ song.name }}封面" class="song-image">
-                <div class="song-info">
-                    <h1 class="song-title">{{ song.name }}</h1>
-                    <div class="artist-name">
-                        <i class="fas fa-user"></i>
-                        <a href="/index/MUSIC/artist/{{artistid}}">{{ song.artist }}</a>
-                    </div>
-                    
-                    <div class="song-url">
-                        <a href="{{ song.url }}" class="original-link" target="_blank">
-                            <i class="fas fa-external-link-alt"></i>
-                            Listen Now
-                        </a>
-                    </div>
-
-                    <div class="return-url">
-                        <a href="/index/MUSIC" class="return" target="_blank">
-                            <i class="fas fa-external-link-alt"></i>
-                            Back
-                        </a>
-                    </div>
-                </div>
+        <header>
+            <h1>歌手列表</h1>
+            <div class="header-buttons">
+                <a href="/index/MUSIC?page=1" class="btn-artist">
+                    <i class="fas fa-users"></i> Song Library
+                </a>
             </div>
-
-            <div class="song-body">
-                <div class="lyrics-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-music"></i> 歌词
-                    </h2>
-                    <div class="lyrics-content">{{ song.lyric }}</div>
-                </div>
-
-                <div class="comments-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-comments"></i> 评论
-                    </h2>
-
-                    <div class="comment-form">
-                        <form action="/index/comment/{{ song.id }}" method="post">
-                            {% csrf_token %}
-                            <textarea name="content" placeholder="写下你的评论..." required></textarea>
-                            <button type="submit" class="submit-btn">
-                                <i class="fas fa-paper-plane"></i> 提交评论
-                            </button>
-                        </form>
+        </header>
+        <section class="search-section">
+            <form id="search-form" action="/index/search" method="GET">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" name="q" placeholder="搜索歌曲、歌手或专辑..." required>
                     </div>
+                    <button type="submit" class="search-btn">搜索</button>
 
-                    <div class="comment-list">
-                        {% for comment in comments %}
-                        <div class="comment-item">
-                            <div class="comment-content">{{ comment.context }}</div>
-                            <div class="comment-meta">
-                                <span>评论时间: {{ comment.created_at }}</span>
-                            </div>
-                            <form action="/index/delcomment/{{ song.id }}" method="post" class="delete-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="delete_comment" value="{{ comment.id }}">
-                                <button type="submit" class="delete-btn" title="删除评论">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </form>
+
+                    <div class="filters">
+                        <select id="type-filter" name="type">
+                            <option value="artist">歌手</option>
+                            <option value="song">歌曲</option>
+                        
+                        </select>
                         </div>
-                        {% empty %}
-                        <div class="empty-comments">
-                            <i class="far fa-comment-dots"></i>
-                            <p>还没有评论，成为第一个评论者吧！</p>
-                        </div>
-                        {% endfor %}
-                    </div>
                 </div>
+                
+                
+            </form>
+        </section>
+
+        <section class="singer-grid">
+            {% for singer in singers %}
+            <div class="singer-card" onclick="window.location.href='/index/MUSIC/artist/{{ singer.id }}'">
+                <div class="album-art" style="background:url({{ MEDIA_URL }}singerpics/{{ singer.num }}.jpg)center/cover"></div>
+
+                <div class="singer-info">
+                    <div class="singer-title">{{ singer.name }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+
+        <div class="pagination">
+            {% if singers.has_previous %}
+                <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">&laquo; 首页</a>
+                <a href="?page={{ singers.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">上一页</a>
+            {% else %}
+                <span class="page-link first-last disabled">&laquo; 首页</span>
+                <span class="page-link disabled">上一页</span>
+            {% endif %}
+
+
+            {% if singers.number > 3 %}
+                <a href="?type=artist&q={{query}}&page=1" class="page-num">1</a>
+                {% if singers.number > 4 %}
+                    <span class="page-num ellipsis">...</span>
+                {% endif %}
+            {% endif %}
+            {% for num in singers.paginator.page_range %}
+                {% if num > singers.number|add:'-3' and num < singers.number|add:'3' %}
+                    {% if num == singers.number %}
+                        <span class="page-num current">{{ num }}</span>
+                    {% else %}
+                        <a href="?type=artist&q={{query}}&page={{ num }}" class="page-num">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if singers.number < singers.paginator.num_pages|add:'-2' %}
+                {% if singers.number < singers.paginator.num_pages|add:'-3' %}
+                    <span class="page-num ellipsis">...</span>
+                {% endif %}
+                <a href="?type=artist&q={{query}}&page={{ singers.paginator.num_pages }}" class="page-num">{{ singers.paginator.num_pages }}</a>
+            {% endif %}
+
+
+
+            <div class="page-jump">
+                <form method="get" action="{{base_url}}">
+                    {% for key, value in request.GET.items %}
+                    {% if key != 'page' %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                    {% endif %}
+                    {% endfor %}
+                    <input type="number" class="page-input" name="page" min="1" max="{{ singers.paginator.num_pages }}" value="{{ singers.number }}" placeholder="页码">
+                    <button type="submit" class="go-btn">跳转</button>
+                </form>
             </div>
 
-            <div class="divider"></div>
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-value">{{ comments|length }}</div>
-                    <div class="stat-label">评论数</div>
-                </div>
-            </div>
+            {% if singers.has_next %}
+            <a href="?page={{ singers.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link">下一页</a>
+            <a href="?page={{ singers.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="page-link first-last">末页 &raquo;</a>
+            {% else %}
+            <span class="page-link disabled">下一页</span>
+            <span class="page-link first-last disabled">末页 &raquo;</span>
+            {% endif %}
+            <span class="page-info">第 {{ singers.number }} 页 / 共 {{ singers.paginator.num_pages }} 页</span>            
         </div>
+        
     </div>
 </body>
 </html>

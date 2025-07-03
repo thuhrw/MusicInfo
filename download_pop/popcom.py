@@ -18,6 +18,9 @@ headers = {
 
 
 def get_pop(song_id):
+    """_summary_
+    利用网易云api获取歌曲热度参数
+    """
 
     pop_url = "https://music.163.com/api/v3/song/detail?"
     params = {"c": json.dumps([{"id": int(song_id)}])}
@@ -28,6 +31,9 @@ def get_pop(song_id):
 
 
 def get_comnum(song_id):
+    """_summary_
+    通过网易云api获得评论数
+    """
 
     comment_url = (
         f"https://music.163.com/api/v1/resource/comments/R_SO_4_{song_id}?limit=1"
@@ -48,7 +54,7 @@ writer.writerow(("artist_name", "song_id", "pop", "comment"))
 
 tmp = 0
 for row_num, row in enumerate(reader):
-    if row_num % 2 == 0:
+    if row_num % 2 == 0:  # csv中隔行有数据
         continue
     song_id = row["song_id"].strip()
     artist_name = row["artist_name"].strip()
@@ -57,4 +63,4 @@ for row_num, row in enumerate(reader):
     print(tmp)
 
 
-# tmp仅仅起到简易进度条作用，懒得import了
+# tmp仅仅起到简易进度条作用，懒得import tqdm了

@@ -13,6 +13,9 @@ from MUSIC.models import Singer
 
 
 def func():
+    """_summary_
+    将歌手信息导入数据库
+    """
 
     singerfile = open(r"C:\Users\14395\Desktop\git\MusicInfo\singer.csv", "r")
 
