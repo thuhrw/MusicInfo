@@ -21,7 +21,7 @@ headers = {
 
 def download_songimg(image_url, save_dir, filename=None):
     """下载歌曲图片
-    
+
     通过爬到的歌曲图片url,保存为本地save_dir/filename
     Keyword arguments:
     image_url -- 图片网址
@@ -37,7 +37,7 @@ def download_songimg(image_url, save_dir, filename=None):
 
 def download_img(image_url, save_dir, filename=None):
     """下载歌手图片
-    
+
     通过爬到的歌手图片url,保存为本地save_dir/filename
     Keyword arguments:
     image_url -- 图片网址
@@ -53,11 +53,11 @@ def download_img(image_url, save_dir, filename=None):
 
 def get_lyric(song_id):
     """获取歌词
-    
+
     利用网易云api访问歌曲文件,返回的是json,提取歌词后,用正则表达式去除时间戳
     Keyword arguments:
     song_id -- 歌曲在网易云中的编号
-    
+
     返回歌词字符串
     """
     url = f"http://music.163.com/api/song/lyric?id={song_id}+&lv=1&tv=-1"
@@ -72,7 +72,7 @@ def get_lyric(song_id):
 
 def get_info():
     """爬虫的主函数
-    
+
     将爬取的内容写在指定文件中
     """
     singercsvfile = open(

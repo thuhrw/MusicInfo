@@ -23,10 +23,10 @@ def load_lyrics():
 
 def processing_lyrics(text):
     """处理歌词,去掉一部分信息
-    
+
     Keyword arguments:
     text -- 所有歌词形成的字符串
-    
+
     返回处理后的字符串
     """
     prefixes = ["作词", "作曲", "演唱", "编曲", "制作人", "歌词"]
@@ -37,10 +37,10 @@ def processing_lyrics(text):
 
 def segment_text(text):
     """由于歌曲的信息各不相同，所以前面处理歌词的函数会有遗漏。手动根据词云结果添加停用词
-    
+
     Keyword arguments:
     text -- 字符串
-    
+
     返回处理后的字符串
     """
     stopwords = [
@@ -48,6 +48,7 @@ def segment_text(text):
         "h3R3",
         "总监",
         "录音",
+        "制作",
         "录音师",
         "作词",
         "出品人",
@@ -138,7 +139,7 @@ def segment_text(text):
 
 def generate_wordcloud(text):
     """生成词云
-    
+
     Keyword arguments:
     text -- 字符串
     """

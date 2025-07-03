@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from adjustText import adjust_text
 
 # 解释器选择全局
