@@ -19,9 +19,7 @@ headers = {
 
 
 def download_songimg():
-    """_summary_
-    爬取歌曲的图片,由于歌曲数量较多,为了避免被反爬虫,爬下一部分数据之后再下载图片
-    """
+    """爬取歌曲的图片,由于歌曲数量较多,为了避免被反爬虫,爬下一部分数据之后再下载图片"""
     with open(r"C:\Users\14395\Desktop\git\MusicInfo\song.csv", mode="r") as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row_num, row in enumerate(csv_reader):

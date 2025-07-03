@@ -23,9 +23,7 @@ writer.writerow(("year", "count"))
 
 
 def func():
-    """_summary_
-    数据分析时爬取歌曲年份
-    """
+    """数据分析时爬取歌曲年份"""
     arr = []
     mydict = {}
     tmp = 0

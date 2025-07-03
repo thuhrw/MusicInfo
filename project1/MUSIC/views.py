@@ -9,9 +9,7 @@ from django.db.models import Q
 
 
 def show_song(request, id):
-    """_summary_
-    展示歌曲信息,在数据库中滤出这首歌的所有评论数据
-    """
+    """展示歌曲信息,在数据库中滤出这首歌的所有评论数据"""
     song = Song.objects.get(id=id)
     artist = Singer.objects.get(name=song.artist)
     artistid = artist.id
@@ -30,9 +28,7 @@ def show_song(request, id):
 
 
 def show_singer(request, id):
-    """_summary_
-    展示歌手信息,在数据库中滤出歌手的歌曲
-    """
+    """展示歌手信息,在数据库中滤出歌手的歌曲"""
     singer = Singer.objects.get(id=id)
     song_list = Song.objects.filter(artist=singer.name)
 
@@ -44,9 +40,7 @@ def show_singer(request, id):
 
 
 def show_mainpage(request):
-    """_summary_
-    歌曲详情页
-    """
+    """歌曲详情页"""
     song_list = Song.objects.all()
     paginator = Paginator(song_list, 8)
 
@@ -67,9 +61,7 @@ def show_mainpage(request):
 
 
 def show_artistlist(request):
-    """_summary_
-    歌手列表页
-    """
+    """歌手列表页"""
     singer_list = Singer.objects.all()
     paginator = Paginator(singer_list, 8)
 
@@ -91,9 +83,7 @@ def show_artistlist(request):
 
 
 def comment(request, id):
-    """_summary_
-    评论函数
-    """
+    """评论函数"""
     content = request.POST.get("content")
     obj = Comment(num=id, context=content)
     obj.full_clean()
@@ -102,9 +92,7 @@ def comment(request, id):
 
 
 def delcomment(request, id):
-    """_summary_
-    删除评论
-    """
+    """删除评论"""
     iden = request.POST.get("delete_comment")
     comment = Comment.objects.get(id=iden)
     comment.delete()
@@ -112,9 +100,7 @@ def delcomment(request, id):
 
 
 def search(request):
-    """_summary_
-    搜索
-    """
+    """搜索"""
     query = request.GET.get("q")
     search_type = request.GET.get("type")
     if search_type == "artist":
