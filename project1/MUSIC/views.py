@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.db.models import Q
+import time
 
 
 def show_song(request, id):
@@ -104,9 +105,13 @@ def search(request):
     query = request.GET.get("q")
     search_type = request.GET.get("type")
     if search_type == "artist":
+        start_time = time.time()
         singer_list = Singer.objects.filter(
             Q(name__contains=query) | Q(desc__contains=query)
         )
+        end_time = time.time()
+        lens = len(singer_list)
+
         paginator = Paginator(singer_list, 8)
 
         page = request.GET.get("page")
@@ -127,15 +132,20 @@ def search(request):
                 "base_url": base_url,
                 "MEDIA_URL": settings.MEDIA_URL,
                 "query": query,
+                "time": "{:.5f}".format(end_time - start_time),
+                "len": lens,
             },
         )
 
     if search_type == "song":
+        start_time = time.time()
         song_list = Song.objects.filter(
             Q(name__contains=query)
             | Q(artist__contains=query)
             | Q(lyric__contains=query)
         )
+        end_time = time.time()
+        lens = len(song_list)
         paginator = Paginator(song_list, 8)
 
         page = request.GET.get("page")
@@ -156,5 +166,7 @@ def search(request):
                 "base_url": base_url,
                 "MEDIA_URL": settings.MEDIA_URL,
                 "query": query,
+                "time": "{:.5f}".format(end_time - start_time),
+                "len": lens,
             },
         )

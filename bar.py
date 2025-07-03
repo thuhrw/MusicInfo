@@ -37,7 +37,7 @@ plt.grid(axis="y", linestyle="--", alpha=1)
 plt.tight_layout()
 plt.subplots_adjust(bottom=0.15)
 
-plt.savefig('bar.png', dpi=300)
+plt.savefig("bar.png", dpi=300)
 
 
 plt.show()
