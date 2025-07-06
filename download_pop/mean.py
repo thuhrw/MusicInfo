@@ -17,5 +17,5 @@ artist_stats.columns = ["artist_name", "avg_pop", "avg_comment"]
 
 
 artist_stats.to_csv(
-    r"C:\Users\14395\Desktop\git\MusicInfo\download_pop\mean.csv", index=False
+    r"C:\Users\14395\Desktop\git\MusicInfo\download_pop\meanall.csv", index=False
 )
