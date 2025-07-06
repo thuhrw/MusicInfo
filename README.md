@@ -1,5 +1,79 @@
 # MusicInfo
 
+```
+MusicInfo
+├─ bar.py
+├─ cloud.py
+├─ dataanalysis.md
+├─ dataanalysis.pdf
+├─ download_desc.py
+├─ download_img.py
+├─ download_pop
+│  ├─ mean.csv
+│  ├─ mean.py
+│  ├─ meanall.csv
+│  ├─ meancopy.csv
+│  ├─ pop.csv
+│  ├─ popcom.py
+│  ├─ popcopy.csv
+│  ├─ processing.py
+│  └─ result.png
+├─ project1
+│  ├─ manage.py
+│  ├─ MUSIC
+│  │  ├─ admin.py
+│  │  ├─ apps.py
+│  │  ├─ migrations
+│  │  │  ├─ 0001_initial.py
+│  │  │  ├─ 0002_singer.py
+│  │  │  ├─ 0003_singer_num.py
+│  │  │  ├─ 0004_comment.py
+│  │  │  ├─ __init__.py
+│  │  │  └─ __pycache__
+│  │  │     ├─ 0001_initial.cpython-313.pyc
+│  │  │     ├─ 0002_singer.cpython-313.pyc
+│  │  │     ├─ 0003_singer_num.cpython-313.pyc
+│  │  │     ├─ 0004_comment.cpython-313.pyc
+│  │  │     └─ __init__.cpython-313.pyc
+│  │  ├─ models.py
+│  │  ├─ templates
+│  │  │  ├─ index.html
+│  │  │  ├─ index1.html
+│  │  │  ├─ index2.html
+│  │  │  ├─ index3.html
+│  │  │  ├─ index4.html
+│  │  │  └─ index5.html
+│  │  ├─ tests.py
+│  │  ├─ urls.py
+│  │  ├─ views.py
+│  │  ├─ __init__.py
+│  │  └─ __pycache__
+│  │     ├─ admin.cpython-313.pyc
+│  │     ├─ apps.cpython-313.pyc
+│  │     ├─ models.cpython-313.pyc
+│  │     ├─ urls.cpython-313.pyc
+│  │     ├─ views.cpython-313.pyc
+│  │     └─ __init__.cpython-313.pyc
+│  ├─ project1
+│  │  ├─ asgi.py
+│  │  ├─ settings.py
+│  │  ├─ urls.py
+│  │  ├─ wsgi.py
+│  │  ├─ __init__.py
+│  │  └─ __pycache__
+│  │     ├─ settings.cpython-313.pyc
+│  │     ├─ urls.cpython-313.pyc
+│  │     ├─ wsgi.cpython-313.pyc
+│  │     └─ __init__.cpython-313.pyc
+│  ├─ singerimporter.py
+│  └─ songimporter.py
+├─ README.md
+├─ report.md
+├─ report.pdf
+├─ spider.py
+└─ year.py
+```
+
 本项目为歌曲网站。
 
 （1）网站构建有关的django部分的代码和html在project1文件夹中。其中singerimporter.py和songimporter.py分别为向数据库写入数据的代码。/MUSIC/templates中有所有网页的html代码。其中index为主页（歌曲列表页），index1为歌曲详情页，index2为歌手列表页，index3为歌手详情页，index4为歌手的搜索结果页，index5为歌曲的搜索结果页。
