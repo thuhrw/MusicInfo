@@ -66,7 +66,7 @@ def get_lyric(song_id):
     json_obj = json.loads(r.text)
     lyric_text = json_obj["lrc"]["lyric"]
     lyric_text = re.sub(r"\[\d{2}:\d{2}\.\d{2}\]", "", lyric_text)
-    lyric_text = re.sub(r"\s+", " ", lyric_text).strip()
+    lyric_text = re.sub(r"[^\S\r\n]+", " ", lyric_text).strip()
     return lyric_text
 
 

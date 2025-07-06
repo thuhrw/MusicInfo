@@ -41,7 +41,10 @@ def show_singer(request, id):
 
 
 def show_mainpage(request):
-    """歌曲详情页"""
+    """歌曲详情页
+
+    每页显示8首歌曲,如果用户输入的页数不是整数就跳转到第一页，如果超出范围则跳转到最近的页数
+    """
     song_list = Song.objects.all()
     paginator = Paginator(song_list, 8)
 
@@ -62,7 +65,10 @@ def show_mainpage(request):
 
 
 def show_artistlist(request):
-    """歌手列表页"""
+    """歌手列表页
+
+    每页显示8位歌手,如果用户输入的页数不是整数就跳转到第一页，如果超出范围则跳转到最近的页数
+    """
     singer_list = Singer.objects.all()
     paginator = Paginator(singer_list, 8)
 
@@ -87,7 +93,7 @@ def comment(request, id):
     """评论函数"""
     content = request.POST.get("content")
     obj = Comment(num=id, context=content)
-    obj.full_clean()
+    obj.full_clean()  # 进行数据验证
     obj.save()
     return HttpResponseRedirect(f"/index/MUSIC/{id}")
 
@@ -101,7 +107,11 @@ def delcomment(request, id):
 
 
 def search(request):
-    """搜索"""
+    """搜索
+
+    搜索时间为filter的查询时间
+    通过传进来的type参数，进行不同的搜索，并且解析不同的html页面
+    """
     query = request.GET.get("q")
     search_type = request.GET.get("type")
     if search_type == "artist":
