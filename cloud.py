@@ -3,8 +3,7 @@ import jieba
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import re
-import numpy as np
-from PIL import Image
+
 
 CSV_FILE = "song.csv"
 LYRIC_COLUMN = "lyric"

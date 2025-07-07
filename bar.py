@@ -11,7 +11,9 @@ data = data.dropna()
 
 
 plt.figure(figsize=(16, 8))
-bars = plt.bar(data["year"].astype(int).astype(str), data["count"])
+bars = plt.bar(
+    data["year"].astype(int).astype(str), data["count"]
+)  # 数据导入时会变成2024.0，所以我先转成整数在转成字符串
 
 
 for bar in bars:

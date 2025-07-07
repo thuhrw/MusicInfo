@@ -170,12 +170,6 @@ def get_info():
                         (song_id, song_name, artist_name, song_url, lyric, song_pic)
                     )
 
-                    download_songimg(
-                        song_pic,
-                        r"C:\Users\14395\Desktop\git\MusicInfo\songpics",
-                        song_id + ".jpg",
-                    )
-
                 time.sleep(random.uniform(0.3, 0.7))
 
 
